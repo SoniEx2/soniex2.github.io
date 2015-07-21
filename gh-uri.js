@@ -1,2 +1,4 @@
 var uri = location.href.split("#").slice(1).join("#");
-window.open(uri);
+if (uri !== "") {
+  window.open(uri, "_self");
+}
