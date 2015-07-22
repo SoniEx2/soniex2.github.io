@@ -1,5 +1,7 @@
 function dostuff() {
   var theBody = document.getElementsByTagName("body")[0];
+  theBody.innerHTML = ""; // clear body
+
   var uri = location.href.split("#").slice(1).join("#");
 
   if (uri !== "") {
@@ -20,6 +22,7 @@ function dostuff() {
     var donatea = document.createElement("a");
     donatea.href = "https://soniex2.github.io/gh-uri.html#bitcoin:16gPboftr3y1gabPkSb7PKNyzerhyfwZ3x?label=ghuri&message=GH-URI%20donation"
     donatea.appendChild(document.createTextNode("https://soniex2.github.io/gh-uri.html#bitcoin:16gPboftr3y1gabPkSb7PKNyzerhyfwZ3x?label=ghuri&message=GH-URI%20donation"));
+    donatea.onclick = function() { setTimeout(dostuff, 10); }
     theBody.appendChild(donatea);
     theBody.appendChild(document.createElement("br"));
     theBody.appendChild(document.createTextNode("DISCLAIMER: I AM NOT TO BE HELD RESPONSIBLE IF YOU GET CAUGHT USING THIS TOOL. USE AT YOUR OWN RISK."));
