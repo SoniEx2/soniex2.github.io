@@ -61,7 +61,7 @@ var board = genBoard(amount, function() {
 board.boom.addEventListener("click", function() {
 	document.body.appendChild(document.createTextNode("You won!"));
 });
-document.body.appendChild(document.createTextNode("Can you solve the board in only " + board.attempts + " activations? Check the boxes on the left, click activate, and try to figure out which boxes on the left activate which boxes on the right! Activations remaining: "));
+document.body.appendChild(document.createTextNode("Can you solve the board in only " + board.attempts + " activations? Check the boxes on the left, click activate, and try to figure out which boxes on the left activate which boxes on the right! Click finish run to check your results and end the game! Activations remaining: "));
 var remaining = board.attempts;
 var remaining_element = document.createElement("span");
 remaining_element.id = "remaining";
