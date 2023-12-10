@@ -1,5 +1,5 @@
 function genBoard(n, fail) {
-	var rem_attempts = 32-Math.clz32(n);
+	var rem_attempts = 32-Math.clz32(n-1);
 	var activate = document.createElement("button");
   activate.appendChild(document.createTextNode("Activate"));
   activate.addEventListener("click", function(e) {
@@ -47,7 +47,7 @@ function genBoard(n, fail) {
     outputs_and_guesses[i] = outputs_and_guesses[j];
     outputs_and_guesses[j] = tmp;
   }
-  return {"activate": activate, "boom": boom, "inputs": inputs, "outputs_and_guesses": outputs_and_guesses, "attempts": 32-Math.clz32(n)};
+  return {"activate": activate, "boom": boom, "inputs": inputs, "outputs_and_guesses": outputs_and_guesses, "attempts": rem_attempts};
 }
 
 addEventListener("DOMContentLoaded", function() {
