@@ -56,10 +56,10 @@ var params = new URLSearchParams(document.location.search);
 var amount = 15;
 if (params.get("difficulty")) { amount = parseInt(params.get("difficulty"), 10); }
 var board = genBoard(amount, function() {
-	document.body.appendChild(document.createTextNode("You lost!"));
+	document.getElementById("output").appendChild(document.createTextNode("You lost!"));
 });
 board.boom.addEventListener("click", function() {
-	document.body.appendChild(document.createTextNode("You won!"));
+	document.getElementById("output").appendChild(document.createTextNode("You won!"));
 });
 document.body.appendChild(document.createTextNode("Can you solve the board in only " + board.attempts + " activations? Check the boxes on the left, click activate, and try to figure out which boxes on the left activate which boxes on the right! Click finish run to check your results and end the game! Activations remaining: "));
 var remaining = board.attempts;
@@ -89,4 +89,9 @@ for (i = 0; i < board.inputs.length; i++) {
   table.appendChild(row);
 }
 document.body.appendChild(table);
+var output = document.createElement("div");
+output.id = "output";
+document.body.appendChild(output);
+document.body.appendChild(document.createElement("hr"));
+document.body.appendChild(document.createTextNode("This software is made with love by a queer trans person."));
 });
