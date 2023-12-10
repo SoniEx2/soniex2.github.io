@@ -51,16 +51,47 @@ function genBoard(n, fail) {
 }
 
 addEventListener("DOMContentLoaded", function() {
-// if you get bored, try 255!
 var params = new URLSearchParams(document.location.search);
 var amount = 15;
 if (params.get("difficulty")) { amount = parseInt(params.get("difficulty"), 10); }
+var has_timer = true;
+if (params.get("timer")) { has_timer = parseInt(params.get("timer"), 10) != 0; }
+var intervalID;
+var start_time = null;
+function start_timer() {
+	start_time = Date.now();
+	document.body.removeEventListener("click", start_timer);
+}
+document.body.addEventListener("click", start_timer);
+function stop_timer() {
+	clearInterval(intervalID);
+	if (start_time === null) {
+		return;
+	}
+	var elapsed = (Date.now() - start_time) / 1000;
+	if (elapsed == 1) {
+		document.getElementById("timer").firstChild.data = "1 second";
+	} else {
+		document.getElementById("timer").firstChild.data = elapsed + " seconds";
+	}
+}
 var board = genBoard(amount, function() {
+	if (document.getElementById("output").hasChildNodes()) {
+		return;
+	}
 	document.getElementById("output").appendChild(document.createTextNode("You lost!"));
+	if (has_timer) {
+		stop_timer();
+	}
 });
-board.boom.addEventListener("click", function() {
+function you_won() {
 	document.getElementById("output").appendChild(document.createTextNode("You won!"));
-});
+	if (has_timer) {
+		stop_timer();
+	}
+	board.boom.removeEventListener("click", you_won);
+}
+board.boom.addEventListener("click", you_won);
 document.body.appendChild(document.createTextNode("Can you solve the board in only " + board.attempts + " activations? Check the boxes on the left, click activate, and try to figure out which boxes on the left activate which boxes on the right! Click finish run to check your results and end the game! Activations remaining: "));
 var remaining = board.attempts;
 var remaining_element = document.createElement("span");
@@ -71,6 +102,24 @@ board.activate.addEventListener("click", function() {
   remaining_element.firstChild.data = remaining;
 });
 document.body.appendChild(remaining_element);
+if (has_timer) {
+	document.body.appendChild(document.createTextNode(" Timer: "));
+	var timer = document.createElement("span");
+	timer.id = "timer";
+	timer.appendChild(document.createTextNode("0 seconds"));
+	intervalID = setInterval(function() {
+		if (start_time === null) {
+			return;
+		}
+		var elapsed = Math.floor((Date.now() - start_time) / 1000);
+		if (elapsed == 1) {
+			timer.firstChild.data = "1 second";
+		} else {
+			timer.firstChild.data = elapsed + " seconds";
+		}
+	}, 1000);
+	document.body.appendChild(timer);
+}
 var container = document.createElement("div");
 container.appendChild(board.activate);
 container.appendChild(board.boom);
